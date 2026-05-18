@@ -5,7 +5,6 @@ from markupsafe import escape
 
 app = Flask(__name__)
 
-# Путь к репозиторию. Можно вынести в переменную окружения GIT_REPO_PATH
 REPO_PATH = os.getenv('GIT_REPO_PATH', '/app') 
 TIMEOUT_SECONDS = 5
 
@@ -20,15 +19,14 @@ def get_git_status(repo_path: str) -> str:
             capture_output=True,
             text=True,
             check=True,
-            cwd=repo_path, # Указываем рабочую директорию
+            cwd=repo_path,
             timeout=TIMEOUT_SECONDS
         )
-        return result.stdout or "Репозиторий чист. Изменений нет."
+        return result.stdout or "Изменений нет."
 
     except subprocess.TimeoutExpired:
         return f"Ошибка: Команда git status не завершилась за {TIMEOUT_SECONDS} секунд."
     except subprocess.CalledProcessError as e:
-        # Код возврата не 0 (например, не git-репозиторий)
         return f"Ошибка git: {e.stderr or 'Неизвестная ошибка при выполнении команды'}"
     except FileNotFoundError:
         return "Ошибка: Команда 'git' не найдена. Убедитесь, что Git установлен и доступен в PATH."
@@ -48,7 +46,7 @@ def git_status():
     return render_template_string('''
         <h1>Статус репозитория ({{ repo_path }})</h1>
         <pre style="background-color: #f4f4f4; padding: 10px; border-radius: 5px;">
-            {{ output }}
+{{ output }}
         </pre>
     ''', repo_path=REPO_PATH, output=safe_output)
 
