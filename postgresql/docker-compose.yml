@@ -18,6 +18,8 @@ services:
     volumes:
       - ./data:/var/lib/postgresql/data
       - ./dumps:/var/lib/postgresql/dumps
+    networks:
+      - sandbox-network
 
   app:
     build: .
@@ -33,7 +35,14 @@ services:
       DB_PASSWORD: postgres
       INTERVAL: 10  # Интервал запуска скрипта (в секундах)
     ports:
-      - "5000:5000"
+      - "5002:5000"
+    networks:
+      - sandbox-network
+
+networks:
+  sandbox-network:
+    #external: true # Внешняя сеть. sudo docker network create sandbox-network
+    driver: bridge
 
 volumes:
   data:

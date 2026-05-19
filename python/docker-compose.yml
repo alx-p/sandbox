@@ -7,11 +7,18 @@ services:
       # Вывод сразу на экран
       - PYTHONUNBUFFERED=True                   
     ports:
-      - "5000:5000"
+      - "5001:5000"
     volumes:
       - ./app:/app
     command: tail -f /dev/null # чтобы контейнер не завершался
     #command: python app.py
+    networks:
+      - sandbox-network
 
 volumes:
   app:
+
+networks:
+  sandbox-network:
+    #external: true # Внешняя сеть. sudo docker network create sandbox-network
+    driver: bridge
