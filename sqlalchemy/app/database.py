@@ -8,20 +8,18 @@ from sqlalchemy.orm import sessionmaker
 from psycopg2 import OperationalError
 
 # Получение конфигурации из переменных окружения
-DB_HOST = os.getenv('DB_HOST', 'postgres')  # Используем имя сервиса из docker-compose
+DB_HOST = os.getenv('DB_HOST', 'postgres')
 DB_PORT = os.getenv('DB_PORT', '5432')
-DB_NAME = os.getenv('DB_NAME', 'mydatabase')
+DB_NAME = os.getenv('DB_NAME', 'sqlalchemy_db')
 DB_USER = os.getenv('DB_USER', 'postgres')
 DB_PASSWORD = os.getenv('DB_PASSWORD', 'postgres')
 
 SQLALCHEMY_DATABASE_URL = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 
-# Функция инициализации базы данных
 def init_db():
     # Добавляем задержку для подстраховки
     #time.sleep(5)
     try:
-        # Проверяем подключение
         with engine.connect() as conn:
             print("Successfully connected to the database")
     except Exception as e:
@@ -58,7 +56,6 @@ def create_db_engine():
     for i in range(max_retries):
         try:
             engine = create_engine(SQLALCHEMY_DATABASE_URL)
-            # Проверяем подключение
             with engine.connect() as conn:
                 pass
             return engine
