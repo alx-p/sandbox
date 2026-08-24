@@ -7,7 +7,7 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: pg_db
+      POSTGRES_DB: ${DB_NAME} #pg_db
     ports:
       - "5432:5432"
     healthcheck:
@@ -30,10 +30,10 @@ services:
     environment:
       DB_HOST: postgres
       DB_PORT: 5432
-      DB_NAME: pg_db
+      DB_NAME: ${DB_NAME} #pg_db
       DB_USER: postgres
       DB_PASSWORD: postgres
-      INTERVAL: 10  # Интервал запуска скрипта (в секундах)
+      INTERVAL: 1  # Интервал запуска скрипта (в секундах)
     ports:
       - "5002:5000"
     networks:
