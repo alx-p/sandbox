@@ -1,0 +1,72 @@
+пример вызова POST-запроса к вашему Flask-приложению для создания новой задачи (Todo) с использованием curl и Python:
+
+1. Пример с использованием curl (командная строка):
+
+curl -X POST http://localhost:5000/todos \
+  -H "Content-Type: application/json" \
+  -d '{
+    "user_id": 1,
+    "title": "New task",
+    "completed": false
+  }'
+
+2. Пример с использованием Python (requests):
+
+import requests
+
+url = "http://localhost:5000/todos"
+data = {
+    "user_id": 1,
+    "title": "New task",
+    "completed": False
+}
+
+response = requests.post(url, json=data)
+
+print(f"Status Code: {response.status_code}")
+print(f"Response: {response.json()}")
+
+3. Пример с использованием JavaScript (fetch API):
+
+fetch('http://localhost:5000/todos', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    user_id: 1,
+    title: 'New task',
+    completed: false
+  })
+})
+.then(response => response.json())
+.then(data => console.log(data))
+.catch(error => console.error('Error:', error));
+
+4. Пример с использованием Postman:
+- Откройте Postman
+- Выберите метод POST
+- Введите URL: http://localhost:5000/todos
+- В разделе "Headers" добавьте:
+    Key: Content-Type
+    Value: application/json
+- В разделе "Body" выберите "raw" и введите JSON:
+{
+  "user_id": 1,
+  "title": "New task",
+  "completed": false
+}
+- Нажмите "Send"
+
+
+Ожидаемый ответ:
+При успешном выполнении вы получите ответ в формате JSON с созданной задачей, включая сгенерированный ID:
+
+{
+  "id": 1,
+  "user_id": 1,
+  "title": "New task",
+  "completed": false,
+  "created_at": "2023-11-15T12:00:00",
+  "updated_at": "2023-11-15T12:00:00"
+}
